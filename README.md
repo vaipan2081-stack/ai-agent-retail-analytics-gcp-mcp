@@ -1,9 +1,9 @@
-## MCP-Enabled AI Agent for Dynamic Data Retrieval and Workflow Automation
+# MCP-Enabled AI Agent for Dynamic Data Retrieval and Workflow Automation
 <img width="300" height="300" alt="unnamed" src="https://github.com/user-attachments/assets/394d43e5-4f7a-4a2d-8b20-4d327fc8bd79" />
 <img width="300" height="300" alt="BITS_Pilani-Logo svg" src="https://github.com/user-attachments/assets/fe7fac03-08a4-4e60-8c2f-8d2c82ff79c2" />
 <img width="300" height="300" alt="BITS_Pilani-Logo svg" src="https://github.com/user-attachments/assets/817a0a43-53e6-41ff-b598-06966ac27964" />
 
-## 1. Project Overview
+# 1. Project Overview
 This repository contains the complete source code and documentation for an intelligent data analytics system designed to bridge the gap between complex enterprise data warehouses and the non-technical business users who need to derive insights from them.
 
 ## The Business Problem
@@ -18,7 +18,7 @@ This project serves as a practical, end-to-end implementation of the powerful "A
 ## Project Context
 The technology stack reflects a strategic and insightful blend of enterprise-grade cloud services and flexible, open-source tools. The use of Google BigQuery for data warehousing and Google Cloud IAM for security demonstrates a foundation built for enterprise-level scalability, reliability, and governance. Simultaneously, the choice of a self-hosted n8n instance for workflow orchestration and a locally run LLM via Ollama highlights a focus on rapid development, cost control, and developer flexibility. This hybrid approach is a key feature of the project. It originated as an advanced proof-of-concept during a "Practice School I" program by students from BITS Pilani at EBO Mart. This context correctly frames the repository as a powerful and well-architected starter kit, ideal for learning, experimentation, and as a foundation for production systems, rather than a turnkey, out-of-the-box product.   
 
-## 2. Key Features
+# 2. Key Features
 This system is equipped with a range of features designed to provide a secure, intelligent, and user-friendly data interaction experience.   
 
 NLP-Assisted Querying: At its core, the system translates natural language questions from users into structured SQL queries that are executed against Google BigQuery. This translation is handled by a reasoning AI agent, democratizing data access for non-technical users.   
@@ -35,7 +35,7 @@ Containerized & Reproducible Environment: All core workflow services—including
 
 Low-Code Workflow Orchestration: The entire prompt-to-response pipeline is orchestrated using n8n, a low-code automation platform. This provides a visual, event-driven interface for building and managing the workflow, making the system's control flow transparent and easy to modify even for those less familiar with the underlying code.   
 
-## 3. System Architecture
+# 3. System Architecture
 The system is designed with a multi-layered, decoupled architecture. Each layer has a distinct responsibility, and together they form a cohesive and robust pipeline that transforms a user's natural language query into a structured data response. This modularity is key to the system's extensibility and maintainability.   
 
 # The Layers
@@ -47,7 +47,7 @@ Tool Abstraction Layer (FastMCP Server): This layer is the system's "universal a
 
 Automation & AI Layer (n8n + Ollama): This is the "brain" of the system, where the user's intent is interpreted and the entire workflow is orchestrated. A self-hosted n8n instance provides the visual canvas for the workflow. The process starts with a Chat Trigger node. The user's input is then passed to an AI Agent node, which is powered by a locally running Large Language Model (e.g., Llama 3) served via the Ollama runtime. This agent analyzes the prompt and communicates with the FastMCP server to first discover the available tools and then execute the chosen one. The n8n workflow manages the entire sequence, handling the data flow between the chat interface, the AI agent, and the MCP client, ultimately formatting the final result and returning it to the user.   
 
-## 4. End-to-End User Workflow
+# 4. End-to-End User Workflow
 To understand how the architectural layers work in concert, consider the lifecycle of a single user query from start to finish. This "prompt-to-tool execution" pipeline demonstrates the system's dynamic and intelligent nature.   
 
 User Query: A business analyst initiates the process by sending a message to the n8n chat interface. For instance: "Fetch the reordering configuration for ID cfg-a1b2-c3d4".
@@ -70,10 +70,10 @@ Response Cascade: The data begins its journey back. The query result is returned
 
 Formatted Output: The final n8n node receives the structured JSON data. It can be configured to format this data into a clear, human-readable message, which is then sent back to the user through the chat interface, completing the workflow.
 
-## 5. Technology Stack
+# 5. Technology Stack
 The project leverages a carefully selected stack of modern technologies, balancing enterprise-grade cloud services with flexible open-source tools to create a powerful and adaptable system.   
 
-# Role & Purpose
+## Role & Purpose
 Backend & API	Python 3.x	The primary programming language for all backend services, data processing, and tool logic.
 Flask	A lightweight web framework used to build the RESTful API layer that serves data from BigQuery.
 Uvicorn	A high-performance ASGI server required to run the asynchronous FastMCP application.
@@ -88,7 +88,7 @@ DevOps & Testing	Docker & Docker Compose	Containerizes all workflow services for
 Postman	Used for manually testing and validating the Flask API endpoints and the JSON-RPC calls to the MCP tool server.
 Python unittest	The standard library framework used for writing unit tests for core Python functions and business logic.
 
-## 6. Usage Guide
+# 6. Usage Guide
 With all services running, you can interact with the AI agent through the n8n chat interface. Navigate to your n8n workflow and use the chat panel to send queries. Here are some examples to try :   
 
 To fetch a specific configuration by its ID:
@@ -105,15 +105,15 @@ To ask the agent about its capabilities:
 
 The agent will process your request, execute the appropriate tool, and return the formatted data directly in the chat window.
 
-## 7. API Endpoint Documentation
+# 7. API Endpoint Documentation
 While the primary interaction with the system is through natural language, developers may need to interact with or extend the underlying Flask API directly. The following table documents the contract for the core API endpoints that serve as the agent's "tools".   
 
-Method	Endpoint	Body Parameters	Description	Example Success Response
+## Method	Endpoint	Body Parameters	Description	Example Success Response
 POST	/get_reordering_config_id	{"id": "string"}	Fetches a single reordering configuration by its unique ID.	{"status": "success", "count": 1, "result": [{"reordering_config_id": "...",...}]}
 POST	/get_reorder_configs	{"site_type": "string", "sku_grading": "string", "page": int, "page_size": int}	Fetches a paginated list of configurations matching the specified filters. page and page_size are optional and default to 1 and 10, respectively.	{"status": "success", "count": 10, "total": 50, "result": [{...}, {...}]}
 
 
-## 8. Acknowledgements
+# 8. Acknowledgements
 This repository is a developer-focused adaptation and extension of a project originally completed by Vaibhav Panda and Setu Minocha for the BITS Pilani Practice School I program at EBO Mart. The original academic report serves as the foundational source for this documentation and architecture.   
 
 
