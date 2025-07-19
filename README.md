@@ -1,7 +1,7 @@
 ## MCP-Enabled AI Agent for Dynamic Data Retrieval and Workflow Automation
-<img width="512" height="512" alt="unnamed" src="https://github.com/user-attachments/assets/394d43e5-4f7a-4a2d-8b20-4d327fc8bd79" />
-<img width="1200" height="1200" alt="BITS_Pilani-Logo svg" src="https://github.com/user-attachments/assets/fe7fac03-08a4-4e60-8c2f-8d2c82ff79c2" />
-![ebo_mart_private_limited_logo](https://github.com/user-attachments/assets/18cea727-690a-4753-bf1a-1674f0efd849)
+<img width="300" height="300" alt="unnamed" src="https://github.com/user-attachments/assets/394d43e5-4f7a-4a2d-8b20-4d327fc8bd79" />
+<img width="300" height="300" alt="BITS_Pilani-Logo svg" src="https://github.com/user-attachments/assets/fe7fac03-08a4-4e60-8c2f-8d2c82ff79c2" />
+<img width="300" height="300" alt="BITS_Pilani-Logo svg" src="https://github.com/user-attachments/assets/817a0a43-53e6-41ff-b598-06966ac27964" />
 
 ## 1. Project Overview
 This repository contains the complete source code and documentation for an intelligent data analytics system designed to bridge the gap between complex enterprise data warehouses and the non-technical business users who need to derive insights from them.
