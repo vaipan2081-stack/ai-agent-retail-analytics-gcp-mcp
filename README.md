@@ -35,7 +35,7 @@ Containerized & Reproducible Environment: All core workflow services—including
 
 Low-Code Workflow Orchestration: The entire prompt-to-response pipeline is orchestrated using n8n, a low-code automation platform. This provides a visual, event-driven interface for building and managing the workflow, making the system's control flow transparent and easy to modify even for those less familiar with the underlying code.   
 
-# 3. System Architecture
+## 3. System Architecture
 The system is designed with a multi-layered, decoupled architecture. Each layer has a distinct responsibility, and together they form a cohesive and robust pipeline that transforms a user's natural language query into a structured data response. This modularity is key to the system's extensibility and maintainability.   
 
 # The Layers
@@ -47,7 +47,7 @@ Tool Abstraction Layer (FastMCP Server): This layer is the system's "universal a
 
 Automation & AI Layer (n8n + Ollama): This is the "brain" of the system, where the user's intent is interpreted and the entire workflow is orchestrated. A self-hosted n8n instance provides the visual canvas for the workflow. The process starts with a Chat Trigger node. The user's input is then passed to an AI Agent node, which is powered by a locally running Large Language Model (e.g., Llama 3) served via the Ollama runtime. This agent analyzes the prompt and communicates with the FastMCP server to first discover the available tools and then execute the chosen one. The n8n workflow manages the entire sequence, handling the data flow between the chat interface, the AI agent, and the MCP client, ultimately formatting the final result and returning it to the user.   
 
-4. End-to-End User Workflow
+## 4. End-to-End User Workflow
 To understand how the architectural layers work in concert, consider the lifecycle of a single user query from start to finish. This "prompt-to-tool execution" pipeline demonstrates the system's dynamic and intelligent nature.   
 
 User Query: A business analyst initiates the process by sending a message to the n8n chat interface. For instance: "Fetch the reordering configuration for ID cfg-a1b2-c3d4".
@@ -88,130 +88,7 @@ DevOps & Testing	Docker & Docker Compose	Containerizes all workflow services for
 Postman	Used for manually testing and validating the Flask API endpoints and the JSON-RPC calls to the MCP tool server.
 Python unittest	The standard library framework used for writing unit tests for core Python functions and business logic.
 
-Export to Sheets
-6. Prerequisites
-Before you begin the installation process, ensure you have the following accounts, software, and configurations in place.   
-
-Accounts:
-
-A Google Cloud Platform (GCP) Account with an active billing profile.
-
-Software:
-
-Docker and Docker Compose installed and running on your local machine.
-
-Python 3.10 or newer, along with pip for package management.
-
-Git for cloning the repository.
-
-Ollama runtime installed and running. Instructions can be found at ollama.com.
-
-Cloud Configuration:
-
-A GCP Project must be created or selected.
-
-The BigQuery API must be enabled for your GCP project.
-
-A GCP Service Account must be created. It requires the following IAM roles:
-
-BigQuery Data Viewer
-
-BigQuery Job User
-
-A JSON key file for this service account must be generated and downloaded to your local machine.
-
-Local LLM:
-
-A Large Language Model must be pulled and available via Ollama. You can do this by running the following command in your terminal:
-
-Bash
-
-ollama pull llama3
-7. Installation and Configuration
-Follow these steps to get the entire system up and running on your local machine. This guide assumes all prerequisites have been met.   
-
-Clone the Repository
-Open your terminal and clone this repository to your local machine.
-
-Bash
-
-git clone https://github.com/your-username/ai-agent-retail-analytics-gcp.git
-cd ai-agent-retail-analytics-gcp
-Configure Environment Variables
-
-Move the GCP service account JSON key file you downloaded into the root of the project directory. For this guide, we'll assume it is named gcp-credentials.json.
-
-Important: Ensure this filename is added to your .gitignore file to prevent accidentally committing credentials to version control.
-
-Create a .env file in the root directory by copying the example file:
-
-Bash
-
-cp.env.example.env
-Open the .env file and set the GOOGLE_APPLICATION_CREDENTIALS variable to the name of your JSON key file:
-
-GOOGLE_APPLICATION_CREDENTIALS=gcp-credentials.json
-GCP_PROJECT_ID=your-gcp-project-id
-Replace your-gcp-project-id with your actual GCP Project ID.
-
-Launch Containerized Services
-This project uses Docker Compose to manage the n8n workflow engine and its dependencies. Launch them in detached mode:
-
-Bash
-
-docker-compose up -d
-This command will start the n8n container along with a PostgreSQL database for its data.
-
-Set Up the Python Backend
-The backend consists of the Flask API server and the FastMCP tool server. Set up a dedicated Python virtual environment for them.
-
-Bash
-
-# Create a virtual environment
-python3 -m venv venv
-
-# Activate the virtual environment
-# On macOS/Linux:
-source venv/bin/activate
-# On Windows:
-#.\venv\Scripts\activate
-
-# Install the required Python packages
-pip install -r requirements.txt
-Run the Backend Servers
-You will need two separate terminal windows for this step, both with the virtual environment activated.
-
-In Terminal 1 (Run the Flask API Server):
-
-Bash
-
-python flask_api.py
-You should see output indicating the Flask server is running, typically on port 5000.
-
-In Terminal 2 (Run the FastMCP Tool Server):
-
-Bash
-
-python mcp_server.py
-You should see output from Uvicorn indicating the MCP server is running, typically on port 8000.
-
-Configure the n8n Workflow
-
-Access the n8n web UI by navigating to http://localhost:5678 in your web browser.
-
-Create a new workflow.
-
-Import the workflow definition provided in this repository (n8n_workflow.json).
-
-Crucial Step: Open the MCP Client node within the imported workflow. You need to configure its URL to point to the MCP server running on your host machine. Because n8n is running inside a Docker container, you cannot use localhost. Instead, use the special Docker host address:
-
-URL: http://host.docker.internal:8000/stream
-
-Activate the workflow using the toggle switch in the n8n UI.
-
-Your system is now fully configured and ready for use.
-
-8. Usage Guide
+## 6. Usage Guide
 With all services running, you can interact with the AI agent through the n8n chat interface. Navigate to your n8n workflow and use the chat panel to send queries. Here are some examples to try :   
 
 To fetch a specific configuration by its ID:
@@ -228,7 +105,7 @@ To ask the agent about its capabilities:
 
 The agent will process your request, execute the appropriate tool, and return the formatted data directly in the chat window.
 
-9. API Endpoint Documentation
+## 7. API Endpoint Documentation
 While the primary interaction with the system is through natural language, developers may need to interact with or extend the underlying Flask API directly. The following table documents the contract for the core API endpoints that serve as the agent's "tools".   
 
 Method	Endpoint	Body Parameters	Description	Example Success Response
@@ -236,7 +113,7 @@ POST	/get_reordering_config_id	{"id": "string"}	Fetches a single reordering conf
 POST	/get_reorder_configs	{"site_type": "string", "sku_grading": "string", "page": int, "page_size": int}	Fetches a paginated list of configurations matching the specified filters. page and page_size are optional and default to 1 and 10, respectively.	{"status": "success", "count": 10, "total": 50, "result": [{...}, {...}]}
 
 
-12. Acknowledgements
+## 8. Acknowledgements
 This repository is a developer-focused adaptation and extension of a project originally completed by Vaibhav Panda and Setu Minocha for the BITS Pilani Practice School I program at EBO Mart. The original academic report serves as the foundational source for this documentation and architecture.   
 
 
